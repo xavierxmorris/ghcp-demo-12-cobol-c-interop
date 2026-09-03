@@ -1,0 +1,44 @@
+Reference run
+=============
+
+Date: 3 September 2026
+Command: .\go.ps1 -Check
+Host: Windows 11 with Docker Desktop 29.6.2
+
+Toolchain
+---------
+cobc (GnuCOBOL) 3.1.2.0
+C version "13.2.0"
+gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0
+
+Checks
+------
+1/7 Compile and test the maintained C adapter
+2/7 Generate C from the COBOL source
+3/7 Build normally from COBOL plus the maintained C object
+4/7 Build a second binary from the generated C artifact
+5/7 Prove signed 64-bit values across the COBOL/C ABI
+6/7 Run both binaries and compare their observable result
+7/7 Run the source-ownership regression guard
+
+PASS: shipped rule values remain in COBOL and generated C remains under build/.
+PASS: COBOL source and generated C produced identical results.
+PASS: the ABI preserved signed 64-bit values above and below 32-bit range.
+
+Result
+------
+{"demo":"fictional-activity-statement-bridge","status":"PAYABLE","net_cents":1450000,"rule":"DEMO-BR-01"}
+
+Evidence
+--------
+compiler=cobc (GnuCOBOL) 3.1.2.0
+configured_c_compiler=C version "13.2.0"
+gcc=gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0
+source_cobol_lines=55
+generated_c_lines=279
+generated_c_sha256=49cea081abf21ae84a707e52b9eaed16c6dd5237f70fe1602e83c850e739fddd
+result_sha256=5471e6c304c25741fc760a6185283369bc5ab5073c94a8ad6d92ed2dbf8cea8a
+abi_probe_sha256=3209e8871613dbf601ed001807700c12cbc801ad194ed74c7f70bcc96e91ad2b
+
+Note: generated C embeds its generation time and source path, so its SHA-256 is
+expected to change on a later run even when maintained source is unchanged.

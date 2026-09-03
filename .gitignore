@@ -1,0 +1,7 @@
+/build/
+/workshop-live/
+
+# OS and editor noise
+Thumbs.db
+.DS_Store
+.vscode/

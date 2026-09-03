@@ -1,0 +1,2 @@
+{"demo":"fictional-activity-statement-bridge","status":"PAYABLE","net_cents":5000000000,"rule":"TEST-BR-01"}
+{"demo":"fictional-activity-statement-bridge","status":"REFUND","net_cents":-5000000000,"rule":"TEST-BR-02"}

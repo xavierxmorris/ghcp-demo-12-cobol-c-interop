@@ -1,0 +1,41 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  verify:
+    runs-on: ubuntu-24.04
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Confirm build artifacts are untracked
+        run: test -z "$(git ls-files build)"
+
+      - name: Build the version-controlled toolchain image
+        run: docker build --tag ghcp-demo-12-cobol-c-interop .
+
+      - name: Build both paths and verify the boundary
+        run: >-
+          docker run --rm
+          --mount "type=bind,source=${GITHUB_WORKSPACE},target=/workspace"
+          ghcp-demo-12-cobol-c-interop
+
+      - name: Upload generated evidence
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: cobol-c-evidence
+          path: |
+            build/evidence.txt
+            build/result-native.json
+            build/result-generated.json
+            build/result-abi-probe.json
+            build/generated/
+          if-no-files-found: warn
+          retention-days: 7

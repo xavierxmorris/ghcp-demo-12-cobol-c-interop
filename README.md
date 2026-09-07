@@ -1,5 +1,9 @@
 # ghcp-demo-12 — COBOL and C, with the boundary made explicit
 
+[Run the lab](#run-it) · [Source ownership](#the-one-idea) ·
+[Copilot value](#where-github-copilot-fits) · [Java/.NET path](JAVA-DOTNET-PATH.md) ·
+[Workshop](WORKSHOP.md)
+
 > **Difficulty:** ⭐⭐⭐<br>
 > **Audience:** COBOL developers, C developers, modernisation leads, architects<br>
 > **Length:** 90-second presenter track or a 15-minute hands-on exercise<br>
@@ -106,6 +110,19 @@ that disappears at the next compile.
 This is a GitHub Copilot demo about **guarded modernisation**, not automatic
 language conversion:
 
+| Engineering work | Copilot can assist with | Evidence still required |
+| --- | --- | --- |
+| Preserve the business-rule owner | Trace COBOL calls and distinguish maintained C from compiler output | Source review and the ownership guard |
+| Make the boundary explicit | Draft/review ABI types, widths, lifetimes, and error cases | Compiled adapter contracts and the signed 64-bit probe |
+| Improve the workflow | Help implement a scoped adapter/test change and diagnose failures | Both build paths, regression checks, and sanitizer results |
+
+**The compiler translates COBOL to C. Copilot helps engineers design and
+maintain the boundary.** Passing checks cover the demonstrated cases, not an
+entire mainframe estate. There is no claimed productivity percentage or
+automatic business-equivalence guarantee.
+
+The repository packages that workflow in:
+
 - [`.github/copilot-instructions.md`](./.github/copilot-instructions.md) defines
   source ownership and the non-negotiable boundary.
 - [`AGENTS.md`](./AGENTS.md) gives coding agents the short operational contract.
@@ -121,6 +138,10 @@ already does that. It is:
 > Map the rule ownership, make the C boundary explicit, generate tests around
 > observable behaviour, and identify platform dependencies before changing the
 > language.
+
+See the shared [Copilot modernization value guide](https://github.com/xavierxmorris/ghcp-demo-13-modernize-legacy-cobol-app/blob/main/docs/COPILOT-VALUE.md)
+for the distinction between coding assistance, compiler execution, and human
+approval across the COBOL/C, Java/.NET, and CardDemo labs.
 
 ## Run it
 

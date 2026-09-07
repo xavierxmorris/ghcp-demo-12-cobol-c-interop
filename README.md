@@ -5,6 +5,10 @@
 > **Length:** 90-second presenter track or a 15-minute hands-on exercise<br>
 > **Prerequisite:** Docker Desktop for the container build; GnuCOBOL + GCC for a native Linux run
 
+**Go deeper:** [WORKSHOP.md](WORKSHOP.md) adds a 60-minute boundary lab:
+ABI field-by-field reasoning, negative-contract cases, evidence from both build
+paths, and a clear distinction between smoke-test agreement and semantic parity.
+
 ```powershell
 .\go.ps1           # build, prove both paths, then run the presenter track
 .\go.ps1 -Check    # build and test only

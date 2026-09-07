@@ -7,12 +7,22 @@ on:
     branches: [main]
   workflow_dispatch:
 
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   verify:
     runs-on: ubuntu-24.04
+    timeout-minutes: 20
 
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
 
       - name: Confirm build artifacts are untracked
         run: test -z "$(git ls-files build)"
@@ -26,6 +36,12 @@ jobs:
           --mount "type=bind,source=${GITHUB_WORKSPACE},target=/workspace"
           ghcp-demo-12-cobol-c-interop
 
+      - name: Require complete generated evidence
+        run: |
+          for file in evidence.txt result-native.json result-generated.json result-abi-probe.json; do
+            test -s "build/$file"
+          done
+
       - name: Run maintained-adapter sanitizers
         run: >-
           docker run --rm
@@ -35,7 +51,7 @@ jobs:
 
       - name: Upload generated evidence
         if: always()
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: cobol-c-evidence
           path: |
@@ -44,5 +60,5 @@ jobs:
             build/result-generated.json
             build/result-abi-probe.json
             build/generated/
-          if-no-files-found: warn
+          if-no-files-found: error
           retention-days: 7

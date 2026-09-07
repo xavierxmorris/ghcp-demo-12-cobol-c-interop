@@ -26,6 +26,13 @@ jobs:
           --mount "type=bind,source=${GITHUB_WORKSPACE},target=/workspace"
           ghcp-demo-12-cobol-c-interop
 
+      - name: Run maintained-adapter sanitizers
+        run: >-
+          docker run --rm
+          --mount "type=bind,source=${GITHUB_WORKSPACE},target=/workspace"
+          ghcp-demo-12-cobol-c-interop
+          bash scripts/check-adapter-sanitizers.sh
+
       - name: Upload generated evidence
         if: always()
         uses: actions/upload-artifact@v7

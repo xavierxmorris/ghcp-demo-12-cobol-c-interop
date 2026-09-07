@@ -9,6 +9,10 @@
 ABI field-by-field reasoning, negative-contract cases, evidence from both build
 paths, and a clear distinction between smoke-test agreement and semantic parity.
 
+**Next modernization step:** [Java and .NET path](JAVA-DOTNET-PATH.md) explains
+when to retain this COBOL boundary and when to move to the independent ports
+and shared behavior tests in demo 13.
+
 ```powershell
 .\go.ps1           # build, prove both paths, then run the presenter track
 .\go.ps1 -Check    # build and test only
@@ -143,6 +147,22 @@ With `cobc`, `gcc` and Bash on `PATH`:
 
 ```bash
 bash scripts/build-and-test.sh
+```
+
+For extended maintained-adapter checks, CI also runs:
+
+```bash
+bash scripts/check-adapter-sanitizers.sh
+```
+
+This exercises the invalid-input contract under GCC AddressSanitizer and
+UndefinedBehaviorSanitizer. It covers the maintained C adapter, not the entire
+GnuCOBOL runtime. On Windows, after `.\go.ps1 -Check`, run it in the same image:
+
+```powershell
+$repo = (Get-Location).Path
+docker run --rm --mount "type=bind,source=$repo,target=/workspace" `
+  ghcp-demo-12-cobol-c-interop bash scripts/check-adapter-sanitizers.sh
 ```
 
 ### Presenter and workshop modes
